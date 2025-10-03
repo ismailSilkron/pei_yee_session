@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pei_yee_session/config/router/path_route.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,9 +14,25 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(title: Text("Home")),
       body: Center(
-        child: Text(
-          "Homescreen",
-          style: Theme.of(context).textTheme.titleLarge,
+        child: Column(
+          spacing: 20,
+          children: [
+            Text("Homescreen", style: Theme.of(context).textTheme.titleLarge),
+            TextButton(
+              onPressed: () async {
+                await Navigator.of(context).pushNamed(PathRoute.registerScreen);
+              },
+              child: Text("register"),
+            ),
+            TextButton(
+              onPressed: () async {
+                await Navigator.of(
+                  context,
+                ).pushNamed(PathRoute.profileScreen, arguments: {});
+              },
+              child: Text("Profile"),
+            ),
+          ],
         ),
       ),
     );

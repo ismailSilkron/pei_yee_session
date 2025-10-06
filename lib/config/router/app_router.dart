@@ -15,13 +15,16 @@ class AppRouter {
           builder: (context) => RegisterScreen(),
         );
       case PathRoute.profileScreen:
-        final params = settings.arguments as Map<String, dynamic>?;
+        final Map<String, dynamic> params = {};
+
+        if (settings.arguments != null &&
+            settings.arguments is Map<String, dynamic>) {
+          params.addAll(settings.arguments as Map<String, dynamic>);
+        }
 
         return _generateRoute(
           settings: settings,
-          builder:
-              (context) =>
-                  ProfileScreen(params: params ?? {"user_id": "123123"}),
+          builder: (context) => ProfileScreen(params: params),
         );
       default:
         return _generateRoute(

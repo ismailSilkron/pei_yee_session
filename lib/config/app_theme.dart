@@ -5,7 +5,7 @@ class AppTheme {
   static ThemeData lightMode(BuildContext context) {
     return ThemeData.light().copyWith(
       appBarTheme: _appBarTheme(context, Brightness.light),
-      colorScheme: ColorScheme.light().copyWith(primary: Colors.black),
+      colorScheme: ColorScheme.light().copyWith(),
       textTheme: _textTheme(context, Brightness.light),
       inputDecorationTheme: _inputDecorationTheme(Brightness.light),
     );
@@ -14,10 +14,7 @@ class AppTheme {
   static ThemeData darkMode(BuildContext context) {
     return ThemeData.dark().copyWith(
       appBarTheme: _appBarTheme(context, Brightness.dark),
-      colorScheme: ColorScheme.dark().copyWith(
-        primary: Colors.white,
-        error: AppPallete.errorColor,
-      ),
+      colorScheme: ColorScheme.dark().copyWith(),
       textTheme: _textTheme(context, Brightness.dark),
       inputDecorationTheme: _inputDecorationTheme(Brightness.dark),
     );
@@ -63,15 +60,25 @@ class AppTheme {
         fontSize: 24,
         fontWeight: FontWeight.w500,
       ),
+      // text color for TextFormField taken from here
+      bodyLarge: TextStyle(
+        color: isDark ? Colors.white : Colors.black,
+        fontSize: 24,
+        fontWeight: FontWeight.w500,
+      ),
     );
   }
 
   static InputDecorationTheme _inputDecorationTheme(Brightness brightness) {
+    final bool isDark = brightness == Brightness.dark;
+
     return InputDecorationTheme(
       contentPadding: EdgeInsets.all(17),
       border: _inputBorder(),
       enabledBorder: _inputBorder(),
       focusedBorder: _inputBorder(AppPallete.gradient2),
+      labelStyle: TextStyle(color: isDark ? Colors.white : Colors.black),
+      hintStyle: TextStyle(color: isDark ? Colors.white70 : Colors.black54),
     );
   }
 

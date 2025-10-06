@@ -5,10 +5,12 @@ enum FieldType { text, email, password }
 class InputField extends StatelessWidget {
   final FieldType type;
   final TextEditingController controller;
+  final String label;
   final String? hintText;
   const InputField({
     super.key,
     this.type = FieldType.text,
+    required this.label,
     required this.controller,
     this.hintText,
   });
@@ -21,7 +23,7 @@ class InputField extends StatelessWidget {
           controller: controller,
           obscureText: type == FieldType.password,
           obscuringCharacter: "*",
-          decoration: InputDecoration(labelText: hintText),
+          decoration: InputDecoration(labelText: label, hintText: hintText),
           validator: (value) {
             if (value?.trim().isEmpty == true || value == null) {
               return "$hintText is missing";

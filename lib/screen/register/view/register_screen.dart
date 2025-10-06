@@ -26,7 +26,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   void initState() {
     _usernameController = TextEditingController();
-    _emailController = TextEditingController()..text = "example@gmail.com";
+    _emailController = TextEditingController();
     _firstNameController = TextEditingController();
     _lastNameController = TextEditingController();
     _passwordController = TextEditingController();
@@ -72,24 +72,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   children: [
                     InputField(
                       controller: _firstNameController,
-                      hintText: "First Name",
+                      label: "First Name",
                     ),
                     InputField(
                       controller: _lastNameController,
-                      hintText: "Lat Name",
+                      label: "Last Name",
                     ),
                     InputField(
                       controller: _usernameController,
-                      hintText: "Username",
+                      label: "Username",
                     ),
                     InputField(
                       controller: _emailController,
-                      hintText: "Email",
+                      label: "Email",
                       type: FieldType.email,
+                      hintText: "example@gmail.com",
                     ),
                     InputField(
                       controller: _passwordController,
-                      hintText: "Password",
+                      label: "Password",
                       type: FieldType.password,
                     ),
 

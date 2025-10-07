@@ -2,8 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:pei_yee_session/config/app_theme.dart';
 import 'package:pei_yee_session/config/router/app_router.dart';
 import 'package:pei_yee_session/screen/home/view/home_screen.dart';
+import 'package:pei_yee_session/service/database/database_config.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await DatabaseConfig().initDB();
+
   runApp(const MyApp());
 }
 
@@ -15,7 +20,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: HomeScreen(),
-      theme: AppTheme.darkMode(context),
+      theme: AppTheme.lightMode(context),
       navigatorKey: AppRouter.navigatorKey,
       onGenerateRoute: AppRouter.generateRouteList,
       debugShowCheckedModeBanner: false,

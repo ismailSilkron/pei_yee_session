@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pei_yee_session/config/router/path_route.dart';
+import 'package:pei_yee_session/screen/login/view/login_screen.dart';
 import 'package:pei_yee_session/screen/profile/view/profile_screen.dart';
 import 'package:pei_yee_session/screen/register/view/register_screen.dart';
 
@@ -13,6 +14,11 @@ class AppRouter {
         return _generateRoute(
           settings: settings,
           builder: (context) => RegisterScreen(),
+        );
+      case PathRoute.loginScreen:
+        return _generateRoute(
+          settings: settings,
+          builder: (context) => LoginScreen(),
         );
       case PathRoute.profileScreen:
         final Map<String, dynamic> params = {};

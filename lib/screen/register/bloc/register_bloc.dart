@@ -19,10 +19,14 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
 
     final response = await User.registerUser(event.registerForm);
 
-    if (response?.isNotEmpty == true) {
-      emit(RegisterSuccess(response!));
+    if (response.isSuccess) {
+      emit(RegisterSuccess(response.data!));
     } else {
-      emit(const RegisterFailure("Registration failed. Please try again."));
+      emit(
+        RegisterFailure(
+          "Registration failed. Please try again. Error Detail: ${response.error?.message}",
+        ),
+      );
     }
   }
 }

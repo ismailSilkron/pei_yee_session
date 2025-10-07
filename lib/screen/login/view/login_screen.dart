@@ -1,39 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pei_yee_session/screen/register/bloc/register_bloc.dart';
-import 'package:pei_yee_session/screen/register/model/register_form.dart'
-    show RegisterForm;
+import 'package:pei_yee_session/config/router/path_route.dart';
+import 'package:pei_yee_session/screen/login/bloc/login_bloc.dart';
 import 'package:pei_yee_session/widget/form/input_field.dart';
 
-class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   late final TextEditingController _usernameController;
-  late final TextEditingController _emailController;
-  late final TextEditingController _firstNameController;
-  late final TextEditingController _lastNameController;
+
   late final TextEditingController _passwordController;
 
-  late final RegisterBloc _registerBloc;
+  late final LoginBloc _loginBloc;
 
   @override
   void initState() {
     _usernameController = TextEditingController();
-    _emailController = TextEditingController();
-    _firstNameController = TextEditingController();
-    _lastNameController = TextEditingController();
+
     _passwordController = TextEditingController();
 
-    _registerBloc = RegisterBloc();
+    _loginBloc = LoginBloc();
 
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 
   @override
@@ -43,15 +45,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
         FocusManager.instance.primaryFocus?.unfocus();
       },
       child: Scaffold(
-        appBar: AppBar(title: const Text("Register")),
-        body: BlocConsumer<RegisterBloc, RegisterState>(
-          bloc: _registerBloc,
-          listener: (context, state) {
-            if (context.mounted && state is RegisterSuccess) {
-              _showSnackbar(context: context, message: "Success Register");
+        appBar: AppBar(title: const Text("Login")),
+        body: BlocConsumer<LoginBloc, LoginState>(
+          bloc: _loginBloc,
+          listener: (context, state) async {
+            if (context.mounted && state is LoginSuccess) {
+              await Navigator.of(context).pushReplacementNamed(
+                PathRoute.profileScreen,
+                arguments: {"user_id": state.userId},
+              );
             }
 
-            if (context.mounted && state is RegisterFailure) {
+            if (context.mounted && state is LoginFailure) {
               _showSnackbar(
                 context: context,
                 message: state.errorMessage,
@@ -71,23 +76,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   spacing: 20,
                   children: [
                     InputField(
-                      controller: _firstNameController,
-                      label: "First Name",
-                    ),
-                    InputField(
-                      controller: _lastNameController,
-                      label: "Last Name",
-                    ),
-                    InputField(
                       controller: _usernameController,
                       label: "Username",
                     ),
-                    InputField(
-                      controller: _emailController,
-                      label: "Email",
-                      type: FieldType.email,
-                      hintText: "example@gmail.com",
-                    ),
+
                     InputField(
                       controller: _passwordController,
                       label: "Password",
@@ -98,20 +90,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           // All validations passed, proceed with form submission
-                          _registerBloc.add(
-                            RegisterUser(
-                              RegisterForm(
-                                username: _usernameController.text,
-                                email: _emailController.text,
-                                firstName: _firstNameController.text,
-                                lastName: _lastNameController.text,
-                                password: _passwordController.text,
-                              ),
+                          _loginBloc.add(
+                            LoginUser(
+                              username: _usernameController.text,
+                              password: _passwordController.text,
                             ),
                           );
                         }
                       },
-                      child: Text("Submit"),
+                      child: Text("Login"),
                     ),
                   ],
                 ),

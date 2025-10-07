@@ -26,6 +26,12 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             TextButton(
               onPressed: () async {
+                await Navigator.of(context).pushNamed(PathRoute.loginScreen);
+              },
+              child: Text("login"),
+            ),
+            TextButton(
+              onPressed: () async {
                 await Navigator.of(context).pushNamed(
                   PathRoute.profileScreen,
                   arguments: {"user_id": "123"},
